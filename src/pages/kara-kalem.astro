@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ArtworkFeed from '../components/ArtworkFeed.astro';
+import { karaKalem } from '../data/placeholder';
+---
+
+<Layout title="Kara Kalem">
+  <div class="max-w-2xl mx-auto px-5 pt-8">
+    <h1 class="text-xl font-light tracking-wide">Kara Kalem</h1>
+    <p class="text-neutral-500 text-[13px] mt-1">Portreler ve serbest çalışmalar</p>
+  </div>
+  <ArtworkFeed items={karaKalem} />
+</Layout>

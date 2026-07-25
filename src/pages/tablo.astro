@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ArtworkFeed from '../components/ArtworkFeed.astro';
+import { tablolar } from '../data/placeholder';
+---
+
+<Layout title="Tablo">
+  <div class="max-w-2xl mx-auto px-5 pt-8">
+    <h1 class="text-xl font-light tracking-wide">Tablo</h1>
+    <p class="text-neutral-500 text-[13px] mt-1">Yağlı boya çalışmaları</p>
+  </div>
+  <ArtworkFeed items={tablolar} />
+</Layout>

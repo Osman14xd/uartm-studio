@@ -1,0 +1,88 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Marquee from '../components/Marquee.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import { duvarResimleri, tablolar, karaKalem } from '../data/placeholder';
+
+// Not: Aşağıdaki iletişim bilgileri placeholder'dır, Murat'tan gelen gerçek bilgilerle değiştirilecek.
+const whatsappNumber = '905XXXXXXXXX';
+const email = 'info@uartmstudio.com';
+---
+
+<Layout title="Ana Sayfa">
+  <!--
+    HERO VİDEO (siyah blok)
+    NOT: /public/videos/hero-placeholder.mp4 geçici bir yer tutucudur.
+    Murat'ın hazırlayacağı gerçek videoyu aynı klasöre "hero.mp4" adıyla
+    koyup src'yi güncellemen yeterli.
+  -->
+  <section class="relative w-full h-[70vh] sm:h-[85vh] bg-black overflow-hidden">
+    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
+      <source src="/videos/hero-placeholder.mp4" type="video/mp4" />
+    </video>
+  </section>
+
+  <!-- İLETİŞİM BLOĞU — pütürlü kağıt zemin, kesintisiz sayfa arka planı gibi -->
+  <section class="paper-texture py-14">
+    <div class="max-w-2xl mx-auto px-5 flex flex-col sm:flex-row items-center gap-6">
+      <div class="w-28 h-28 flex-shrink-0 overflow-hidden rounded-full bg-white/50">
+        <img
+          src="/images/silhouette.jpeg"
+          alt="Murat Apaydın"
+          class="w-full h-full object-cover object-left"
+        />
+      </div>
+      <div class="text-center sm:text-left">
+        <h2 class="text-xl font-light tracking-wide">Murat Apaydın</h2>
+        <p class="text-neutral-500 text-sm tracking-wide mt-0.5">Sanatçı</p>
+        <div class="mt-4 space-y-1.5 text-[14px] text-neutral-700">
+          <p>
+            <a href={`https://wa.me/${whatsappNumber}`} class="hover:text-neutral-900 underline underline-offset-2">
+              WhatsApp ile ulaş
+            </a>
+          </p>
+          <p>
+            <a href={`mailto:${email}`} class="hover:text-neutral-900 underline underline-offset-2">
+              {email}
+            </a>
+          </p>
+          <p>
+            <a href="/hakkinda" class="hover:text-neutral-900 underline underline-offset-2">
+              Daha fazlası →
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESKİZLER ŞERİDİ — sürekli otomatik kayan, aynı pütürlü zemin üzerinde devam ediyor -->
+    <div class="mt-12">
+      <Marquee title="Eskizler" images={karaKalem.map(a => ({ src: a.src, alt: a.alt }))} href="/kara-kalem" speed={22} />
+    </div>
+  </section>
+
+  <!-- 3 KATEGORİ KARTI — alt alta, Nike tarzı görsel+başlık+keşfet -->
+  <section class="space-y-1">
+    <CategoryCard
+      image={duvarResimleri[0].src}
+      alt={duvarResimleri[0].alt}
+      categoryLabel="DUVAR RESİMLERİ"
+      title={duvarResimleri[0].title}
+      href="/duvar-resimleri"
+    />
+    <CategoryCard
+      image={tablolar[0].src}
+      alt={tablolar[0].alt}
+      categoryLabel="TABLOLAR"
+      title={tablolar[0].title}
+      href="/tablo"
+    />
+    <CategoryCard
+      image={karaKalem[0].src}
+      alt={karaKalem[0].alt}
+      categoryLabel="ESKİZLER"
+      title={karaKalem[0].title}
+      href="/kara-kalem"
+    />
+  </section>
+</Layout>
