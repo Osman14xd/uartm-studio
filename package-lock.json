@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ArtworkFeed from '../components/ArtworkFeed.astro';
+import { gunlukler } from '../data/placeholder';
+---
+
+<Layout title="Günlükler">
+  <div class="max-w-2xl mx-auto px-5 pt-8">
+    <h1 class="text-xl font-light tracking-wide">Günlükler</h1>
+    <p class="text-neutral-500 text-[13px] mt-1">Stüdyodan kısa notlar ve perde arkası</p>
+  </div>
+  <ArtworkFeed items={gunlukler} />
+</Layout>

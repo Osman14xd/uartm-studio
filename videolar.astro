@@ -1,0 +1,57 @@
+---
+import type { Artwork } from '../data/placeholder';
+
+interface Props {
+  items: Artwork[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="space-y-10 py-4">
+  {items.map((item, i) => (
+    <article>
+      <div class="w-full bg-neutral-100 overflow-hidden">
+        <img
+          src={item.src}
+          alt={item.alt}
+          loading={i < 2 ? 'eager' : 'lazy'}
+          class="w-full h-auto object-cover"
+        />
+      </div>
+      <div class="px-5">
+        <h3 class="mt-3 text-[15px] font-medium">{item.title}</h3>
+        <p class="note-text mt-1 text-[14px] text-neutral-600 leading-relaxed line-clamp-1">
+          {item.note}
+        </p>
+        <button class="expand-btn mt-1 text-[13px] text-neutral-400 hover:text-neutral-700">
+          daha fazla göster
+        </button>
+      </div>
+    </article>
+  ))}
+</div>
+
+<style>
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .note-text.expanded {
+    -webkit-line-clamp: unset;
+    display: block;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.expand-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const note = btn.previousElementSibling;
+      if (!note) return;
+      const isExpanded = note.classList.toggle('expanded');
+      btn.textContent = isExpanded ? 'daha az göster' : 'daha fazla göster';
+    });
+  });
+</script>

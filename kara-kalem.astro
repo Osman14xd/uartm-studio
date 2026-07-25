@@ -1,0 +1,46 @@
+---
+interface MarqueeImage {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  title: string;
+  images: MarqueeImage[];
+  href: string;
+  speed?: number; // saniye - tam turu tamamlama süresi
+}
+
+const { title, images, href, speed = 28 } = Astro.props;
+// Kesintisiz döngü için görselleri tekrarlıyoruz
+const looped = [...images, ...images];
+---
+
+<section class="py-10 overflow-hidden">
+  <div class="max-w-6xl mx-auto px-5 flex items-baseline justify-between mb-4">
+    <h2 class="text-lg sm:text-xl tracking-wide font-light">{title}</h2>
+    <a href={href} class="text-[13px] text-neutral-500 hover:text-neutral-900 transition-colors whitespace-nowrap ml-4">
+      Daha fazlası →
+    </a>
+  </div>
+
+  <div class="marquee-track flex gap-3 w-max" style={`animation-duration: ${speed}s;`}>
+    {looped.map((img) => (
+      <a href={href} class="flex-shrink-0 w-[62vw] sm:w-[320px] aspect-[4/5] overflow-hidden bg-neutral-100">
+        <img src={img.src} alt={img.alt} loading="lazy" class="w-full h-full object-cover" />
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .marquee-track {
+    animation-name: marquee-scroll;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+</style>
