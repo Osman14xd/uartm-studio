@@ -6,7 +6,11 @@ import { getEserlerByKategori, urlFor } from '../lib/sanity';
 
 const sanityData = await getEserlerByKategori('kara-kalem');
 const items = sanityData.length > 0
-  ? sanityData.map(e => ({ src: urlFor(e.gorsel).width(1200).url(), alt: e.baslik, title: e.baslik, note: e.not || '' }))
+  ? sanityData.map(e => ({
+      images: e.gorseller.map((g: any) => ({ src: urlFor(g).width(1200).url(), alt: e.baslik })),
+      title: e.baslik,
+      note: e.not || '',
+    }))
   : karaKalem;
 ---
 

@@ -17,16 +17,16 @@ const [sanityDuvar, sanityTablo, sanityKaraKalem, ayarlar] = await Promise.all([
 ]);
 
 const duvarList = sanityDuvar.length > 0
-  ? sanityDuvar.map(e => ({ src: urlFor(e.gorsel).width(800).url(), alt: e.baslik, title: e.baslik }))
-  : duvarResimleri;
+  ? sanityDuvar.map(e => ({ src: urlFor(e.gorseller[0]).width(800).url(), alt: e.baslik, title: e.baslik }))
+  : duvarResimleri.map(a => ({ src: a.images[0].src, alt: a.images[0].alt, title: a.title }));
 
 const tabloList = sanityTablo.length > 0
-  ? sanityTablo.map(e => ({ src: urlFor(e.gorsel).width(800).url(), alt: e.baslik, title: e.baslik }))
-  : tablolar;
+  ? sanityTablo.map(e => ({ src: urlFor(e.gorseller[0]).width(800).url(), alt: e.baslik, title: e.baslik }))
+  : tablolar.map(a => ({ src: a.images[0].src, alt: a.images[0].alt, title: a.title }));
 
 const karaKalemList = sanityKaraKalem.length > 0
-  ? sanityKaraKalem.map(e => ({ src: urlFor(e.gorsel).width(800).url(), alt: e.baslik, title: e.baslik }))
-  : karaKalem;
+  ? sanityKaraKalem.map(e => ({ src: urlFor(e.gorseller[0]).width(800).url(), alt: e.baslik, title: e.baslik }))
+  : karaKalem.map(a => ({ src: a.images[0].src, alt: a.images[0].alt, title: a.title }));
 
 const whatsappNumber = ayarlar?.whatsapp || '905XXXXXXXXX';
 const email = ayarlar?.email || 'info@uartmstudio.com';

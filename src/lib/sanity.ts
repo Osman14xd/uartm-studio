@@ -16,7 +16,7 @@ export function urlFor(source: any) {
 export interface Eser {
   _id: string;
   kategori: string;
-  gorsel: any;
+  gorseller: any[];
   baslik: string;
   not?: string;
   oneCikan?: boolean;

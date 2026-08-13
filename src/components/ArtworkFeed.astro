@@ -9,27 +9,44 @@ const { items } = Astro.props;
 ---
 
 <div class="space-y-10 py-4">
-  {items.map((item, i) => (
-    <article>
-      <div class="w-full bg-neutral-100 overflow-hidden">
-        <img
-          src={item.src}
-          alt={item.alt}
-          loading={i < 2 ? 'eager' : 'lazy'}
-          class="w-full h-auto object-cover"
-        />
-      </div>
-      <div class="px-5">
-        <h3 class="mt-3 text-[15px] font-medium">{item.title}</h3>
-        <p class="note-text mt-1 text-[14px] text-neutral-600 leading-relaxed line-clamp-1">
-          {item.note}
-        </p>
-        <button class="expand-btn mt-1 text-[13px] text-neutral-400 hover:text-neutral-700">
-          daha fazla göster
-        </button>
-      </div>
-    </article>
-  ))}
+  {items.map((item, i) => {
+    const uid = `gallery-${i}-${Math.random().toString(36).slice(2, 8)}`;
+    const hasMultiple = item.images.length > 1;
+    return (
+      <article>
+        <div class="relative">
+          <div
+            id={uid}
+            class="gallery-scroll flex overflow-x-auto snap-x snap-mandatory w-full bg-neutral-100"
+            style="scrollbar-width:none;"
+          >
+            {item.images.map((img, j) => (
+              <img
+                src={img.src}
+                alt={img.alt}
+                loading={i < 2 && j === 0 ? 'eager' : 'lazy'}
+                class="w-full flex-shrink-0 snap-center object-cover"
+              />
+            ))}
+          </div>
+          {hasMultiple && (
+            <div class="gallery-counter absolute top-3 right-3 bg-black/60 text-white text-[11px] px-2 py-1 rounded-full">
+              1/{item.images.length}
+            </div>
+          )}
+        </div>
+        <div class="px-5">
+          <h3 class="mt-3 text-[15px] font-medium">{item.title}</h3>
+          <p class="note-text mt-1 text-[14px] text-neutral-600 leading-relaxed line-clamp-1">
+            {item.note}
+          </p>
+          <button class="expand-btn mt-1 text-[13px] text-neutral-400 hover:text-neutral-700">
+            daha fazla göster
+          </button>
+        </div>
+      </article>
+    );
+  })}
 </div>
 
 <style>
@@ -43,15 +60,29 @@ const { items } = Astro.props;
     -webkit-line-clamp: unset;
     display: block;
   }
+  .gallery-scroll::-webkit-scrollbar {
+    display: none;
+  }
 </style>
 
 <script>
   document.querySelectorAll('.expand-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
-      const note = btn.previousElementSibling;
+      const article = btn.closest('article');
+      const note = article?.querySelector('.note-text');
       if (!note) return;
       const isExpanded = note.classList.toggle('expanded');
       btn.textContent = isExpanded ? 'daha az göster' : 'daha fazla göster';
+    });
+  });
+
+  document.querySelectorAll('.gallery-scroll').forEach((el) => {
+    const counter = el.parentElement?.querySelector('.gallery-counter');
+    if (!counter) return;
+    const total = el.children.length;
+    el.addEventListener('scroll', () => {
+      const index = Math.round(el.scrollLeft / el.clientWidth) + 1;
+      counter.textContent = `${Math.min(index, total)}/${total}`;
     });
   });
 </script>

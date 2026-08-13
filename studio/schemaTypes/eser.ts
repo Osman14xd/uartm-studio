@@ -21,11 +21,13 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'gorsel',
-      title: 'Fotoğraf',
-      type: 'image',
-      options: {hotspot: true},
-      validation: (Rule) => Rule.required(),
+      name: 'gorseller',
+      title: 'Fotoğraflar',
+      type: 'array',
+      of: [{type: 'image', options: {hotspot: true}}],
+      description: 'Aynı projeden birden fazla fotoğraf ekleyebilirsin (farklı açılar vs.). Hepsini birden sürükleyip bırakabilirsin, sitede yana kaydırılarak görünür.',
+      validation: (Rule) => Rule.required().min(1),
+      options: {layout: 'grid'},
     }),
     defineField({
       name: 'baslik',
@@ -59,7 +61,7 @@ export default defineType({
     select: {
       title: 'baslik',
       subtitle: 'kategori',
-      media: 'gorsel',
+      media: 'gorseller.0',
     },
   },
 })
