@@ -4,7 +4,7 @@ import Marquee from '../components/Marquee.astro';
 import CategoryCard from '../components/CategoryCard.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import { duvarResimleri, tablolar, karaKalem } from '../data/placeholder';
-import { getEserlerByKategori, getSiteAyarlari, urlFor } from '../lib/sanity';
+import { getEserlerByKategori, getSiteAyarlari, urlFor, fileUrlFor } from '../lib/sanity';
 
 // Sanity'den gerçek veriyi çekiyoruz. Murat henüz içerik yüklemediyse
 // (veya build sırasında bağlantı sorunu olursa) placeholder veriye düşüyoruz,
@@ -35,7 +35,8 @@ const karaKalemList = sanityKaraKalem.length > 0
 
 const whatsappNumber = ayarlar?.whatsapp || '905XXXXXXXXX';
 const email = ayarlar?.email || 'info@uartmstudio.com';
-const heroVideoUrl = ayarlar?.heroVideo?.asset?.url || '/videos/hero-placeholder.mp4';
+const heroVideoUrl = ayarlar?.heroVideo ? fileUrlFor(ayarlar.heroVideo) : '';
+const heroVideoSrc = heroVideoUrl || '/videos/hero-placeholder.mp4';
 const siluetUrl = ayarlar?.siluetFoto ? urlFor(ayarlar.siluetFoto).width(300).url() : '/images/silhouette.jpeg';
 ---
 
@@ -48,7 +49,7 @@ const siluetUrl = ayarlar?.siluetFoto ? urlFor(ayarlar.siluetFoto).width(300).ur
   -->
   <section class="relative w-full h-[calc(100dvh-5rem)] bg-black overflow-hidden">
     <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
-      <source src={heroVideoUrl} type="video/mp4" />
+      <source src={heroVideoSrc} type="video/mp4" />
     </video>
   </section>
 
