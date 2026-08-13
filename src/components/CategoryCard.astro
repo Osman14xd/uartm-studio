@@ -1,29 +1,76 @@
 ---
-interface Props {
+interface CardItem {
   image: string;
   alt: string;
-  categoryLabel: string;
   title: string;
+}
+
+interface Props {
+  items: CardItem[];
+  categoryLabel: string;
   href: string;
 }
 
-const { image, alt, categoryLabel, title, href } = Astro.props;
+const { items, categoryLabel, href } = Astro.props;
+const uid = `cat-card-${categoryLabel.toLowerCase().replace(/[^a-z0-9]/gi, '-')}`;
+const rotates = items.length > 1;
 ---
 
 <a href={href} class="block relative w-full aspect-[4/5] sm:aspect-[16/10] overflow-hidden bg-neutral-900 group">
-  <img
-    src={image}
-    alt={alt}
-    loading="lazy"
-    class="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-500"
-  />
+  <div id={rotates ? uid : undefined} class="absolute inset-0 w-full h-full">
+    {items.map((item, i) => (
+      <img
+        src={item.image}
+        alt={item.alt}
+        loading={i === 0 ? 'lazy' : 'lazy'}
+        class="card-slide absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-[1.02] transition-[opacity,transform] duration-[900ms]"
+        style={`opacity:${i === 0 ? '0.9' : '0'}`}
+        data-index={i}
+      />
+    ))}
+  </div>
   <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
 
   <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
     <p class="text-[12px] font-semibold tracking-wide text-white/90 mb-1">{categoryLabel}</p>
-    <h3 class="text-xl sm:text-2xl font-bold text-white mb-4 max-w-md">{title}</h3>
-    <span class="inline-block bg-white text-neutral-900 text-[13px] font-medium px-4 py-2 rounded-full">
+    <div class="relative min-h-[1.75rem] sm:min-h-[2rem]">
+      {items.map((item, i) => (
+        <h3
+          class="card-title absolute inset-0 text-xl sm:text-2xl font-bold text-white max-w-md transition-opacity duration-[900ms]"
+          style={`opacity:${i === 0 ? '1' : '0'}`}
+          data-index={i}
+        >
+          {item.title}
+        </h3>
+      ))}
+    </div>
+    <span class="inline-block mt-4 bg-white text-neutral-900 text-[13px] font-medium px-4 py-2 rounded-full">
       Keşfet
     </span>
   </div>
 </a>
+
+{rotates && (
+  <script define:vars={{ uid, count: items.length }}>
+    {
+      const container = document.getElementById(uid);
+      if (container) {
+        const slides = container.querySelectorAll('.card-slide');
+        const titles = container
+          .closest('a')
+          ?.querySelectorAll('.card-title');
+        let current = 0;
+        setInterval(() => {
+          const next = (current + 1) % count;
+          slides[current].style.opacity = '0';
+          slides[next].style.opacity = '0.9';
+          if (titles) {
+            titles[current].style.opacity = '0';
+            titles[next].style.opacity = '1';
+          }
+          current = next;
+        }, 3000);
+      }
+    }
+  </script>
+)}

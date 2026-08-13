@@ -97,27 +97,21 @@ const siluetUrl = ayarlar?.siluetFoto ? urlFor(ayarlar.siluetFoto).width(300).ur
     </div>
   </section>
 
-  <!-- 3 KATEGORİ KARTI — alt alta, Nike tarzı görsel+başlık+keşfet -->
+  <!-- 3 KATEGORİ KARTI — alt alta, her biri kendi içinde 3sn'de bir smooth geçişle proje değiştiriyor -->
   <section class="space-y-1">
     <CategoryCard
-      image={duvarList[0].src}
-      alt={duvarList[0].alt}
+      items={duvarList.map(d => ({ image: d.src, alt: d.alt, title: d.title }))}
       categoryLabel="DUVAR RESİMLERİ"
-      title={duvarList[0].title}
       href="/duvar-resimleri"
     />
     <CategoryCard
-      image={tabloList[0].src}
-      alt={tabloList[0].alt}
+      items={tabloList.map(d => ({ image: d.src, alt: d.alt, title: d.title }))}
       categoryLabel="TABLOLAR"
-      title={tabloList[0].title}
       href="/tablo"
     />
     <CategoryCard
-      image={karaKalemList[0].src}
-      alt={karaKalemList[0].alt}
+      items={karaKalemList.map(d => ({ image: d.src, alt: d.alt, title: d.title }))}
       categoryLabel="ESKİZLER"
-      title={karaKalemList[0].title}
       href="/kara-kalem"
     />
   </section>
