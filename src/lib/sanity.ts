@@ -23,6 +23,7 @@ export interface Eser {
 }
 
 export interface SiteAyarlari {
+  logo?: any;
   whatsapp?: string;
   email?: string;
   hakkindaMetni?: string;

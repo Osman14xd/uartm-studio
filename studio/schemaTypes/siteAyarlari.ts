@@ -6,6 +6,12 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'logo',
+      title: 'Logo',
+      type: 'image',
+      description: 'Sitenin üst kısmında görünen logo. Mümkünse arka planı şeffaf (transparan PNG) olsun.',
+    }),
+    defineField({
       name: 'whatsapp',
       title: 'WhatsApp Numarası',
       type: 'string',

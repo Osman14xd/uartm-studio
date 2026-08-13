@@ -1,11 +1,15 @@
 ---
 import '../styles/global.css';
+import { getSiteAyarlari, urlFor } from '../lib/sanity';
 
 interface Props {
   title?: string;
 }
 
 const { title = 'Uartm Studio' } = Astro.props;
+
+const ayarlar = await getSiteAyarlari();
+const logoUrl = ayarlar?.logo ? urlFor(ayarlar.logo).width(200).url() : '/images/logo.jpeg';
 
 const navItems = [
   { label: 'Hakkında', href: '/hakkinda' },
@@ -32,7 +36,7 @@ const currentPath = Astro.url.pathname;
     <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-neutral-100">
       <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
         <a href="/" class="flex items-center gap-2">
-          <img src="/images/logo.jpeg" alt="Uartm Studio" class="h-9 w-auto" />
+          <img src={logoUrl} alt="Uartm Studio" class="h-9 w-auto" />
         </a>
 
         <button
