@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Marquee from '../components/Marquee.astro';
 import CategoryCard from '../components/CategoryCard.astro';
+import SocialLinks from '../components/SocialLinks.astro';
 import { duvarResimleri, tablolar, karaKalem } from '../data/placeholder';
 import { getEserlerByKategori, getSiteAyarlari, urlFor } from '../lib/sanity';
 
@@ -76,6 +77,12 @@ const siluetUrl = ayarlar?.siluetFoto ? urlFor(ayarlar.siluetFoto).width(300).ur
             </a>
           </p>
         </div>
+        <SocialLinks
+          instagram={ayarlar?.instagram}
+          twitter={ayarlar?.twitter}
+          youtube={ayarlar?.youtube}
+          tiktok={ayarlar?.tiktok}
+        />
       </div>
     </div>
 

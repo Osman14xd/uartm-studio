@@ -41,6 +41,30 @@ export default defineType({
       type: 'image',
       description: 'İletişim bölümünde görünen yuvarlak fotoğraf',
     }),
+    defineField({
+      name: 'instagram',
+      title: 'Instagram Linki',
+      type: 'url',
+      description: 'Boş bırakılırsa sitede ikon görünmez',
+    }),
+    defineField({
+      name: 'twitter',
+      title: 'Twitter / X Linki',
+      type: 'url',
+      description: 'Boş bırakılırsa sitede ikon görünmez',
+    }),
+    defineField({
+      name: 'youtube',
+      title: 'YouTube Linki',
+      type: 'url',
+      description: 'Boş bırakılırsa sitede ikon görünmez',
+    }),
+    defineField({
+      name: 'tiktok',
+      title: 'TikTok Linki',
+      type: 'url',
+      description: 'Boş bırakılırsa sitede ikon görünmez',
+    }),
   ],
   preview: {
     prepare() {

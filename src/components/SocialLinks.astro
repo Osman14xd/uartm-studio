@@ -1,0 +1,44 @@
+---
+interface Props {
+  instagram?: string;
+  twitter?: string;
+  youtube?: string;
+  tiktok?: string;
+}
+
+const { instagram, twitter, youtube, tiktok } = Astro.props;
+
+const links = [
+  { url: instagram, label: 'Instagram', icon: 'instagram' },
+  { url: twitter, label: 'Twitter / X', icon: 'twitter' },
+  { url: youtube, label: 'YouTube', icon: 'youtube' },
+  { url: tiktok, label: 'TikTok', icon: 'tiktok' },
+].filter((l) => l.url && l.url.trim() !== '');
+---
+
+{links.length > 0 && (
+  <div class="flex items-center gap-4 mt-1">
+    {links.map((link) => (
+      <a
+        href={link.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={link.label}
+        class="text-neutral-500 hover:text-neutral-900 transition-colors"
+      >
+        {link.icon === 'instagram' && (
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        )}
+        {link.icon === 'twitter' && (
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.9l-5.4-6.6L4.6 22H1.5l8.1-9.3L1 2h7l4.9 6.1L18.9 2Zm-1.2 18h1.9L7.4 4H5.4l12.3 16Z"/></svg>
+        )}
+        {link.icon === 'youtube' && (
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.6-.5-5.3c-.3-1-1-1.8-2-2C18.8 4.2 12 4.2 12 4.2s-6.8 0-8.5.5c-1 .2-1.7 1-2 2C1 8.4 1 12 1 12s0 3.6.5 5.3c.3 1 1 1.8 2 2 1.7.5 8.5.5 8.5.5s6.8 0 8.5-.5c1-.2 1.7-1 2-2 .5-1.7.5-5.3.5-5.3ZM9.8 15.5V8.5l6.4 3.5-6.4 3.5Z"/></svg>
+        )}
+        {link.icon === 'tiktok' && (
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16.7 2h-3.3v13.7a2.9 2.9 0 1 1-2-2.7v-3.3a6.2 6.2 0 1 0 5.3 6.1V8.4a7.5 7.5 0 0 0 4.3 1.4V6.5a4.2 4.2 0 0 1-4.3-4.5Z"/></svg>
+        )}
+      </a>
+    ))}
+  </div>
+)}

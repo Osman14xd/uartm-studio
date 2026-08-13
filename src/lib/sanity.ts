@@ -29,6 +29,10 @@ export interface SiteAyarlari {
   hakkindaMetni?: string;
   heroVideo?: {asset?: {url?: string}};
   siluetFoto?: any;
+  instagram?: string;
+  twitter?: string;
+  youtube?: string;
+  tiktok?: string;
 }
 
 /**
