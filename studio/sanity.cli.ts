@@ -5,4 +5,5 @@ export default defineCliConfig({
     projectId: 'bakobqce',
     dataset: 'production',
   },
+  studioHost: 'uartm-studio',
 })
