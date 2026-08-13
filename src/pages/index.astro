@@ -3,22 +3,46 @@ import Layout from '../layouts/Layout.astro';
 import Marquee from '../components/Marquee.astro';
 import CategoryCard from '../components/CategoryCard.astro';
 import { duvarResimleri, tablolar, karaKalem } from '../data/placeholder';
+import { getEserlerByKategori, getSiteAyarlari, urlFor } from '../lib/sanity';
 
-// Not: Aşağıdaki iletişim bilgileri placeholder'dır, Murat'tan gelen gerçek bilgilerle değiştirilecek.
-const whatsappNumber = '905XXXXXXXXX';
-const email = 'info@uartmstudio.com';
+// Sanity'den gerçek veriyi çekiyoruz. Murat henüz içerik yüklemediyse
+// (veya build sırasında bağlantı sorunu olursa) placeholder veriye düşüyoruz,
+// böylece site hiçbir zaman boş/kırık görünmüyor.
+const [sanityDuvar, sanityTablo, sanityKaraKalem, ayarlar] = await Promise.all([
+  getEserlerByKategori('duvar-resimleri'),
+  getEserlerByKategori('tablo'),
+  getEserlerByKategori('kara-kalem'),
+  getSiteAyarlari(),
+]);
+
+const duvarList = sanityDuvar.length > 0
+  ? sanityDuvar.map(e => ({ src: urlFor(e.gorsel).width(800).url(), alt: e.baslik, title: e.baslik }))
+  : duvarResimleri;
+
+const tabloList = sanityTablo.length > 0
+  ? sanityTablo.map(e => ({ src: urlFor(e.gorsel).width(800).url(), alt: e.baslik, title: e.baslik }))
+  : tablolar;
+
+const karaKalemList = sanityKaraKalem.length > 0
+  ? sanityKaraKalem.map(e => ({ src: urlFor(e.gorsel).width(800).url(), alt: e.baslik, title: e.baslik }))
+  : karaKalem;
+
+const whatsappNumber = ayarlar?.whatsapp || '905XXXXXXXXX';
+const email = ayarlar?.email || 'info@uartmstudio.com';
+const heroVideoUrl = ayarlar?.heroVideo?.asset?.url || '/videos/hero-placeholder.mp4';
+const siluetUrl = ayarlar?.siluetFoto ? urlFor(ayarlar.siluetFoto).width(300).url() : '/images/silhouette.jpeg';
 ---
 
 <Layout title="Ana Sayfa">
   <!--
     HERO VİDEO (siyah blok)
-    NOT: /public/videos/hero-placeholder.mp4 geçici bir yer tutucudur.
-    Murat'ın hazırlayacağı gerçek videoyu aynı klasöre "hero.mp4" adıyla
-    koyup src'yi güncellemen yeterli.
+    Murat, Sanity panelinden "Site Ayarları > Ana Sayfa Videosu" alanına
+    video yüklediğinde otomatik olarak burada gösterilir. Yüklemediyse
+    geçici placeholder video devrede kalır.
   -->
-  <section class="relative w-full h-[70vh] sm:h-[85vh] bg-black overflow-hidden">
+  <section class="relative w-full h-[calc(100dvh-4rem)] bg-black overflow-hidden">
     <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
-      <source src="/videos/hero-placeholder.mp4" type="video/mp4" />
+      <source src={heroVideoUrl} type="video/mp4" />
     </video>
   </section>
 
@@ -27,7 +51,7 @@ const email = 'info@uartmstudio.com';
     <div class="max-w-2xl mx-auto px-5 flex flex-col sm:flex-row items-center gap-6">
       <div class="w-28 h-28 flex-shrink-0 overflow-hidden rounded-full bg-white/50">
         <img
-          src="/images/silhouette.jpeg"
+          src={siluetUrl}
           alt="Murat Apaydın"
           class="w-full h-full object-cover object-left"
         />
@@ -57,31 +81,31 @@ const email = 'info@uartmstudio.com';
 
     <!-- ESKİZLER ŞERİDİ — sürekli otomatik kayan, aynı pütürlü zemin üzerinde devam ediyor -->
     <div class="mt-12">
-      <Marquee title="Eskizler" images={karaKalem.map(a => ({ src: a.src, alt: a.alt }))} href="/kara-kalem" speed={22} />
+      <Marquee title="Eskizler" images={karaKalemList.map(a => ({ src: a.src, alt: a.alt }))} href="/kara-kalem" speed={22} />
     </div>
   </section>
 
   <!-- 3 KATEGORİ KARTI — alt alta, Nike tarzı görsel+başlık+keşfet -->
   <section class="space-y-1">
     <CategoryCard
-      image={duvarResimleri[0].src}
-      alt={duvarResimleri[0].alt}
+      image={duvarList[0].src}
+      alt={duvarList[0].alt}
       categoryLabel="DUVAR RESİMLERİ"
-      title={duvarResimleri[0].title}
+      title={duvarList[0].title}
       href="/duvar-resimleri"
     />
     <CategoryCard
-      image={tablolar[0].src}
-      alt={tablolar[0].alt}
+      image={tabloList[0].src}
+      alt={tabloList[0].alt}
       categoryLabel="TABLOLAR"
-      title={tablolar[0].title}
+      title={tabloList[0].title}
       href="/tablo"
     />
     <CategoryCard
-      image={karaKalem[0].src}
-      alt={karaKalem[0].alt}
+      image={karaKalemList[0].src}
+      alt={karaKalemList[0].alt}
       categoryLabel="ESKİZLER"
-      title={karaKalem[0].title}
+      title={karaKalemList[0].title}
       href="/kara-kalem"
     />
   </section>

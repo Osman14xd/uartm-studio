@@ -2,6 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import ArtworkFeed from '../components/ArtworkFeed.astro';
 import { duvarResimleri } from '../data/placeholder';
+import { getEserlerByKategori, urlFor } from '../lib/sanity';
+
+const sanityData = await getEserlerByKategori('duvar-resimleri');
+const items = sanityData.length > 0
+  ? sanityData.map(e => ({ src: urlFor(e.gorsel).width(1200).url(), alt: e.baslik, title: e.baslik, note: e.not || '' }))
+  : duvarResimleri;
 ---
 
 <Layout title="Duvar Resimleri">
@@ -9,5 +15,5 @@ import { duvarResimleri } from '../data/placeholder';
     <h1 class="text-xl font-light tracking-wide">Duvar Resimleri</h1>
     <p class="text-neutral-500 text-[13px] mt-1">Mural ve dış cephe çalışmaları</p>
   </div>
-  <ArtworkFeed items={duvarResimleri} />
+  <ArtworkFeed items={items} />
 </Layout>

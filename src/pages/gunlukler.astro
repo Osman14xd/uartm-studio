@@ -2,6 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import ArtworkFeed from '../components/ArtworkFeed.astro';
 import { gunlukler } from '../data/placeholder';
+import { getEserlerByKategori, urlFor } from '../lib/sanity';
+
+const sanityData = await getEserlerByKategori('gunlukler');
+const items = sanityData.length > 0
+  ? sanityData.map(e => ({ src: urlFor(e.gorsel).width(1200).url(), alt: e.baslik, title: e.baslik, note: e.not || '' }))
+  : gunlukler;
 ---
 
 <Layout title="Günlükler">
@@ -9,5 +15,5 @@ import { gunlukler } from '../data/placeholder';
     <h1 class="text-xl font-light tracking-wide">Günlükler</h1>
     <p class="text-neutral-500 text-[13px] mt-1">Stüdyodan kısa notlar ve perde arkası</p>
   </div>
-  <ArtworkFeed items={gunlukler} />
+  <ArtworkFeed items={items} />
 </Layout>

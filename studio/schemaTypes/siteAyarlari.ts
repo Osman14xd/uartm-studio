@@ -1,0 +1,44 @@
+import {defineField, defineType} from 'sanity'
+
+export default defineType({
+  name: 'siteAyarlari',
+  title: 'Site Ayarları',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'whatsapp',
+      title: 'WhatsApp Numarası',
+      type: 'string',
+      description: 'Başında ülke kodu ile, boşluksuz (örn: 905551234567)',
+    }),
+    defineField({
+      name: 'email',
+      title: 'E-posta',
+      type: 'string',
+    }),
+    defineField({
+      name: 'hakkindaMetni',
+      title: 'Hakkında Metni',
+      type: 'text',
+      rows: 6,
+    }),
+    defineField({
+      name: 'heroVideo',
+      title: 'Ana Sayfa Videosu',
+      type: 'file',
+      options: {accept: 'video/*'},
+      description: 'Ana sayfanın en üstünde otomatik oynayan video. 9:16 (dikey) formatında olmalı.',
+    }),
+    defineField({
+      name: 'siluetFoto',
+      title: 'Profil Fotoğrafı',
+      type: 'image',
+      description: 'İletişim bölümünde görünen yuvarlak fotoğraf',
+    }),
+  ],
+  preview: {
+    prepare() {
+      return {title: 'Site Ayarları'}
+    },
+  },
+})

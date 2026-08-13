@@ -2,6 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import ArtworkFeed from '../components/ArtworkFeed.astro';
 import { tablolar } from '../data/placeholder';
+import { getEserlerByKategori, urlFor } from '../lib/sanity';
+
+const sanityData = await getEserlerByKategori('tablo');
+const items = sanityData.length > 0
+  ? sanityData.map(e => ({ src: urlFor(e.gorsel).width(1200).url(), alt: e.baslik, title: e.baslik, note: e.not || '' }))
+  : tablolar;
 ---
 
 <Layout title="Tablo">
@@ -9,5 +15,5 @@ import { tablolar } from '../data/placeholder';
     <h1 class="text-xl font-light tracking-wide">Tablo</h1>
     <p class="text-neutral-500 text-[13px] mt-1">Yağlı boya çalışmaları</p>
   </div>
-  <ArtworkFeed items={tablolar} />
+  <ArtworkFeed items={items} />
 </Layout>
