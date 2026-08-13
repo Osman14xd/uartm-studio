@@ -13,7 +13,7 @@ const { items } = Astro.props;
     const uid = `gallery-${i}-${Math.random().toString(36).slice(2, 8)}`;
     const hasMultiple = item.images.length > 1;
     return (
-      <article>
+      <article id={`eser-${i}`} class="scroll-mt-24">
         <div class="relative">
           <div
             id={uid}

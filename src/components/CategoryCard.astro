@@ -16,22 +16,29 @@ const uid = `cat-card-${categoryLabel.toLowerCase().replace(/[^a-z0-9]/gi, '-')}
 const rotates = items.length > 1;
 ---
 
-<a href={href} class="block relative w-full aspect-[4/5] sm:aspect-[16/10] overflow-hidden bg-neutral-900 group">
-  <div id={rotates ? uid : undefined} class="absolute inset-0 w-full h-full">
-    {items.map((item, i) => (
-      <img
-        src={item.image}
-        alt={item.alt}
-        loading={i === 0 ? 'lazy' : 'lazy'}
-        class="card-slide absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-[1.02] transition-[opacity,transform] duration-[900ms]"
-        style={`opacity:${i === 0 ? '0.9' : '0'}`}
-        data-index={i}
-      />
-    ))}
-  </div>
-  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+<div class="relative w-full aspect-[4/5] sm:aspect-[16/10] overflow-hidden bg-neutral-900 group">
+  <!--
+    Fotoğrafa/görsele tıklayınca o an gösterilen PROJEYE (ilgili sekmede o esere)
+    gider. "Keşfet" butonu ise her zaman sayfanın en başına gider — bu yüzden
+    ikisi ayrı link, üst üste bindirilmiş durumda.
+  -->
+  <a id={`${uid}-link`} href={`${href}#eser-0`} class="absolute inset-0 block" aria-label={categoryLabel}>
+    <div id={rotates ? uid : undefined} class="absolute inset-0 w-full h-full">
+      {items.map((item, i) => (
+        <img
+          src={item.image}
+          alt={item.alt}
+          loading="lazy"
+          class="card-slide absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-[1.02] transition-[opacity,transform] duration-[900ms]"
+          style={`opacity:${i === 0 ? '0.9' : '0'}`}
+          data-index={i}
+        />
+      ))}
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+  </a>
 
-  <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
+  <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-8 pointer-events-none">
     <p class="text-[12px] font-semibold tracking-wide text-white/90 mb-1">{categoryLabel}</p>
     <div class="relative min-h-[1.75rem] sm:min-h-[2rem]">
       {items.map((item, i) => (
@@ -44,20 +51,24 @@ const rotates = items.length > 1;
         </h3>
       ))}
     </div>
-    <span class="inline-block mt-4 bg-white text-neutral-900 text-[13px] font-medium px-4 py-2 rounded-full">
+    <a
+      href={href}
+      class="pointer-events-auto inline-block mt-4 bg-white text-neutral-900 text-[13px] font-medium px-4 py-2 rounded-full"
+    >
       Keşfet
-    </span>
+    </a>
   </div>
-</a>
+</div>
 
 {rotates && (
-  <script define:vars={{ uid, count: items.length }}>
+  <script define:vars={{ uid, count: items.length, href }}>
     {
       const container = document.getElementById(uid);
+      const link = document.getElementById(`${uid}-link`);
       if (container) {
         const slides = container.querySelectorAll('.card-slide');
-        const titles = container
-          .closest('a')
+        const titles = document.querySelectorAll(`#${uid}`)[0]
+          ?.closest('.group')
           ?.querySelectorAll('.card-title');
         let current = 0;
         setInterval(() => {
@@ -69,6 +80,7 @@ const rotates = items.length > 1;
             titles[next].style.opacity = '1';
           }
           current = next;
+          if (link) link.href = `${href}#eser-${current}`;
         }, 3000);
       }
     }
