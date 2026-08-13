@@ -16,16 +16,21 @@ const [sanityDuvar, sanityTablo, sanityKaraKalem, ayarlar] = await Promise.all([
   getSiteAyarlari(),
 ]);
 
+// Showcase/kart önizlemelerinde video değil, ilk FOTOĞRAFI göstermek istiyoruz
+// (video otomatik oynamaz, boş kare gibi görünür). Yoksa yine de bir şey göstersin diye
+// fallback olarak dizinin ilk öğesine düşüyoruz.
+const ilkGorsel = (gorseller: any[]) => gorseller.find((g) => g._type !== 'video') || gorseller[0];
+
 const duvarList = sanityDuvar.length > 0
-  ? sanityDuvar.map(e => ({ src: urlFor(e.gorseller[0]).width(800).url(), alt: e.baslik, title: e.baslik }))
+  ? sanityDuvar.map(e => ({ src: urlFor(ilkGorsel(e.gorseller)).width(800).url(), alt: e.baslik, title: e.baslik }))
   : duvarResimleri.map(a => ({ src: a.images[0].src, alt: a.images[0].alt, title: a.title }));
 
 const tabloList = sanityTablo.length > 0
-  ? sanityTablo.map(e => ({ src: urlFor(e.gorseller[0]).width(800).url(), alt: e.baslik, title: e.baslik }))
+  ? sanityTablo.map(e => ({ src: urlFor(ilkGorsel(e.gorseller)).width(800).url(), alt: e.baslik, title: e.baslik }))
   : tablolar.map(a => ({ src: a.images[0].src, alt: a.images[0].alt, title: a.title }));
 
 const karaKalemList = sanityKaraKalem.length > 0
-  ? sanityKaraKalem.map(e => ({ src: urlFor(e.gorseller[0]).width(800).url(), alt: e.baslik, title: e.baslik }))
+  ? sanityKaraKalem.map(e => ({ src: urlFor(ilkGorsel(e.gorseller)).width(800).url(), alt: e.baslik, title: e.baslik }))
   : karaKalem.map(a => ({ src: a.images[0].src, alt: a.images[0].alt, title: a.title }));
 
 const whatsappNumber = ayarlar?.whatsapp || '905XXXXXXXXX';

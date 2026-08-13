@@ -21,12 +21,21 @@ const { items } = Astro.props;
             style="scrollbar-width:none;"
           >
             {item.images.map((img, j) => (
-              <img
-                src={img.src}
-                alt={img.alt}
-                loading={i < 2 && j === 0 ? 'eager' : 'lazy'}
-                class="w-full flex-shrink-0 snap-center object-cover"
-              />
+              img.type === 'video' ? (
+                <video
+                  src={img.src}
+                  controls
+                  playsinline
+                  class="w-full flex-shrink-0 snap-center object-cover"
+                />
+              ) : (
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  loading={i < 2 && j === 0 ? 'eager' : 'lazy'}
+                  class="w-full flex-shrink-0 snap-center object-cover"
+                />
+              )
             ))}
           </div>
           {hasMultiple && (

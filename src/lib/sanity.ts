@@ -13,6 +13,19 @@ export function urlFor(source: any) {
   return builder.image(source);
 }
 
+/**
+ * Sanity'nin "file" tipi (video) alanları için doğrudan CDN URL'i üretir.
+ * Bunun için ayrı bir GROQ dereference sorgusu gerekmiyor; dosya
+ * referansındaki (_ref) desenden (file-<id>-<uzanti>) URL'i kendimiz kuruyoruz.
+ */
+export function fileUrlFor(source: any): string {
+  const ref: string = source?.asset?._ref || '';
+  const match = ref.match(/^file-([a-f0-9]+)-(\w+)$/);
+  if (!match) return '';
+  const [, id, ext] = match;
+  return `https://cdn.sanity.io/files/bakobqce/production/${id}.${ext}`;
+}
+
 export interface Eser {
   _id: string;
   kategori: string;

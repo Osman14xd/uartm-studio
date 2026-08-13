@@ -2,12 +2,16 @@
 import Layout from '../layouts/Layout.astro';
 import ArtworkFeed from '../components/ArtworkFeed.astro';
 import { duvarResimleri } from '../data/placeholder';
-import { getEserlerByKategori, urlFor } from '../lib/sanity';
+import { getEserlerByKategori, urlFor, fileUrlFor } from '../lib/sanity';
 
 const sanityData = await getEserlerByKategori('duvar-resimleri');
 const items = sanityData.length > 0
   ? sanityData.map(e => ({
-      images: e.gorseller.map((g: any) => ({ src: urlFor(g).width(1200).url(), alt: e.baslik })),
+      images: e.gorseller.map((g: any) =>
+        g._type === 'video'
+          ? { src: fileUrlFor(g), alt: e.baslik, type: 'video' as const }
+          : { src: urlFor(g).width(1200).url(), alt: e.baslik, type: 'image' as const }
+      ),
       title: e.baslik,
       note: e.not || '',
     }))

@@ -22,10 +22,13 @@ export default defineType({
     }),
     defineField({
       name: 'gorseller',
-      title: 'Fotoğraflar',
+      title: 'Fotoğraflar / Videolar',
       type: 'array',
-      of: [{type: 'image', options: {hotspot: true}}],
-      description: 'Aynı projeden birden fazla fotoğraf ekleyebilirsin (farklı açılar vs.). Hepsini birden sürükleyip bırakabilirsin, sitede yana kaydırılarak görünür.',
+      of: [
+        {type: 'image', name: 'resim', title: 'Fotoğraf', options: {hotspot: true}},
+        {type: 'file', name: 'video', title: 'Video', options: {accept: 'video/*'}},
+      ],
+      description: 'Aynı projeden birden fazla fotoğraf ve istersen aralarına video da ekleyebilirsin. Hepsi sitede yana kaydırılarak görünür.',
       validation: (Rule) => Rule.required().min(1),
       options: {layout: 'grid'},
     }),

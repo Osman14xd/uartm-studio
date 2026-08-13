@@ -4,6 +4,7 @@
 export interface ArtworkImage {
   src: string;
   alt: string;
+  type?: 'image' | 'video';
 }
 
 export interface Artwork {
