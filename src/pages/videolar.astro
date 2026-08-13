@@ -1,9 +1,29 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import ArtworkFeed from '../components/ArtworkFeed.astro';
+import { getEserlerByKategori, urlFor, fileUrlFor } from '../lib/sanity';
+
+const sanityData = await getEserlerByKategori('videolar');
+const items = sanityData.map(e => ({
+  images: e.gorseller.map((g: any) =>
+    g._type === 'video'
+      ? { src: fileUrlFor(g), alt: e.baslik, type: 'video' as const }
+      : { src: urlFor(g).width(1200).url(), alt: e.baslik, type: 'image' as const }
+  ),
+  title: e.baslik,
+  note: e.not || '',
+}));
 ---
 
 <Layout title="Videolar">
-  <div class="max-w-2xl mx-auto px-5 py-24 text-center">
-    <p class="text-neutral-400 text-sm tracking-wide">Yakında burada olacak.</p>
+  <div class="max-w-2xl mx-auto px-5 pt-8">
+    <h1 class="text-xl font-light tracking-wide">Videolar</h1>
   </div>
+  {items.length > 0 ? (
+    <ArtworkFeed items={items} />
+  ) : (
+    <div class="max-w-2xl mx-auto px-5 py-24 text-center">
+      <p class="text-neutral-400 text-sm tracking-wide">Yakında burada olacak.</p>
+    </div>
+  )}
 </Layout>

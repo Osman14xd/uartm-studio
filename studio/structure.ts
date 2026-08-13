@@ -5,6 +5,7 @@ const kategoriler = [
   {id: 'tablo', title: 'Tablo'},
   {id: 'kara-kalem', title: 'Kara Kalem'},
   {id: 'gunlukler', title: 'Günlükler'},
+  {id: 'videolar', title: 'Videolar'},
 ]
 
 export const structure: StructureResolver = (S) =>

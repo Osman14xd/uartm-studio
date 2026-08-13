@@ -15,6 +15,7 @@ export default defineType({
           {title: 'Tablo', value: 'tablo'},
           {title: 'Kara Kalem', value: 'kara-kalem'},
           {title: 'Günlükler', value: 'gunlukler'},
+          {title: 'Videolar', value: 'videolar'},
         ],
         layout: 'radio',
       },
