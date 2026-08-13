@@ -25,11 +25,14 @@ const looped = [...images, ...images];
   </div>
 
   <div class="marquee-track flex gap-3 w-max" style={`animation-duration: ${speed}s;`}>
-    {looped.map((img) => (
-      <a href={href} class="flex-shrink-0 w-[62vw] sm:w-[320px] aspect-[4/5] overflow-hidden bg-neutral-100">
-        <img src={img.src} alt={img.alt} loading="lazy" class="w-full h-full object-cover" />
-      </a>
-    ))}
+    {looped.map((img, i) => {
+      const originalIndex = i % images.length;
+      return (
+        <a href={`${href}#eser-${originalIndex}`} class="flex-shrink-0 w-[62vw] sm:w-[320px] aspect-[4/5] overflow-hidden bg-neutral-100">
+          <img src={img.src} alt={img.alt} loading="lazy" class="w-full h-full object-cover" />
+        </a>
+      );
+    })}
   </div>
 </section>
 
