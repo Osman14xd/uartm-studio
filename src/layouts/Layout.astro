@@ -1,15 +1,11 @@
 ---
 import '../styles/global.css';
-import { getSiteAyarlari, urlFor } from '../lib/sanity';
 
 interface Props {
   title?: string;
 }
 
 const { title = 'Uartm Studio' } = Astro.props;
-
-const ayarlar = await getSiteAyarlari();
-const logoUrl = ayarlar?.logo ? urlFor(ayarlar.logo).width(200).url() : '/images/logo.jpeg';
 
 const navItems = [
   { label: 'Hakkında', href: '/hakkinda' },
@@ -36,14 +32,10 @@ const currentPath = Astro.url.pathname;
       Koyu tema, sayfa çizilmeden ÖNCE (head içinde, senkron) uygulanıyor ki
       "önce beyaz açılıp sonra koyuya dönme" (flash) yaşanmasın.
       Saat aralığı: 20:00 - 07:00 arası koyu tema.
-
-      NOT: Şu an DARK_MODE_ENABLED = false yapılarak devre dışı bırakıldı,
-      site her zaman beyaz tema kalıyor. Tekrar aktif etmek için bu satırı
-      true yapmak yeterli, başka hiçbir kod değişikliği gerekmiyor.
     -->
     <script is:inline>
       (function () {
-        var DARK_MODE_ENABLED = false;
+        var DARK_MODE_ENABLED = true;
         if (!DARK_MODE_ENABLED) return;
         var hour = new Date().getHours();
         var isNight = hour >= 20 || hour < 7;
@@ -55,7 +47,8 @@ const currentPath = Astro.url.pathname;
     <header class="sticky top-0 z-50 bg-white/95 dark:bg-black/95 backdrop-blur border-b border-neutral-100 dark:border-neutral-800 transition-colors duration-300">
       <div class="max-w-6xl mx-auto px-5 py-0 flex items-center justify-between">
         <a href="/" class="flex items-center gap-2">
-          <img src={logoUrl} alt="Uartm Studio" class="h-[3.33rem] w-auto dark:brightness-0 dark:invert" />
+          <img src="/images/logo-light.png" alt="Uartm Studio" class="h-[3.33rem] w-auto block dark:hidden" />
+          <img src="/images/logo-dark.png" alt="Uartm Studio" class="h-[3.33rem] w-auto hidden dark:block" />
         </a>
 
         <button
