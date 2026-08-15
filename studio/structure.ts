@@ -1,7 +1,7 @@
 import type {StructureResolver} from 'sanity/structure'
 
 const kategoriler = [
-  {id: 'duvar-resimleri', title: 'Duvar Resimleri'},
+  {id: 'duvar-resimleri', title: 'Duvar Resmi & Mural'},
   {id: 'tablo', title: 'Tablo'},
   {id: 'kara-kalem', title: 'Kara Kalem'},
   {id: 'gunlukler', title: 'Günlükler'},

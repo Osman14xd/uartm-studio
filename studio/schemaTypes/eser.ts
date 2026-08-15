@@ -11,7 +11,7 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-          {title: 'Duvar Resimleri', value: 'duvar-resimleri'},
+          {title: 'Duvar Resmi & Mural', value: 'duvar-resimleri'},
           {title: 'Tablo', value: 'tablo'},
           {title: 'Kara Kalem', value: 'kara-kalem'},
           {title: 'Günlükler', value: 'gunlukler'},
