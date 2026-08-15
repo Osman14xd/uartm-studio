@@ -9,10 +9,11 @@ import { getEserlerByKategori, getSiteAyarlari, urlFor, fileUrlFor } from '../li
 // Sanity'den gerçek veriyi çekiyoruz. Murat henüz içerik yüklemediyse
 // (veya build sırasında bağlantı sorunu olursa) placeholder veriye düşüyoruz,
 // böylece site hiçbir zaman boş/kırık görünmüyor.
-const [sanityDuvar, sanityTablo, sanityKaraKalem, ayarlar] = await Promise.all([
+const [sanityDuvar, sanityTablo, sanityKaraKalem, sanityEskiz, ayarlar] = await Promise.all([
   getEserlerByKategori('duvar-resimleri'),
   getEserlerByKategori('tablo'),
   getEserlerByKategori('kara-kalem'),
+  getEserlerByKategori('eskiz'),
   getSiteAyarlari(),
 ]);
 
@@ -32,6 +33,14 @@ const tabloList = sanityTablo.length > 0
 const karaKalemList = sanityKaraKalem.length > 0
   ? sanityKaraKalem.map(e => ({ src: urlFor(ilkGorsel(e.gorseller)).width(800).url(), alt: e.baslik, title: e.baslik }))
   : karaKalem.map(a => ({ src: a.images[0].src, alt: a.images[0].alt, title: a.title }));
+
+// Eskiz için placeholder YOK — Murat ilk eseri ekleyene kadar bu liste boş kalır
+// ve ana sayfadaki 4. kart otomatik olarak gizli durur.
+const eskizList = sanityEskiz.map(e => ({
+  src: urlFor(ilkGorsel(e.gorseller)).width(800).url(),
+  alt: e.baslik,
+  title: e.baslik,
+}));
 
 const whatsappNumber = ayarlar?.whatsapp || '905XXXXXXXXX';
 const email = ayarlar?.email || 'info@uartmstudio.com';
@@ -92,13 +101,13 @@ const siluetUrl = ayarlar?.siluetFoto ? urlFor(ayarlar.siluetFoto).width(300).ur
       </div>
     </div>
 
-    <!-- ESKİZLER ŞERİDİ — sürekli otomatik kayan, aynı pütürlü zemin üzerinde devam ediyor -->
+    <!-- KARA KALEM ŞERİDİ — sürekli otomatik kayan, aynı pütürlü zemin üzerinde devam ediyor -->
     <div class="mt-12">
-      <Marquee title="Eskizler" images={karaKalemList.map(a => ({ src: a.src, alt: a.alt }))} href="/kara-kalem" speed={22} />
+      <Marquee title="Kara Kalem" images={karaKalemList.map(a => ({ src: a.src, alt: a.alt }))} href="/kara-kalem" speed={22} />
     </div>
   </section>
 
-  <!-- 3 KATEGORİ KARTI — alt alta, her biri kendi içinde 3sn'de bir smooth geçişle proje değiştiriyor -->
+  <!-- KATEGORİ KARTLARI — alt alta, her biri kendi içinde 3sn'de bir smooth geçişle proje değiştiriyor -->
   <section class="space-y-1">
     <CategoryCard
       items={duvarList.map(d => ({ image: d.src, alt: d.alt, title: d.title }))}
@@ -112,8 +121,15 @@ const siluetUrl = ayarlar?.siluetFoto ? urlFor(ayarlar.siluetFoto).width(300).ur
     />
     <CategoryCard
       items={karaKalemList.map(d => ({ image: d.src, alt: d.alt, title: d.title }))}
-      categoryLabel="ESKİZLER"
+      categoryLabel="KARA KALEM"
       href="/kara-kalem"
     />
+    {eskizList.length > 0 && (
+      <CategoryCard
+        items={eskizList.map(d => ({ image: d.src, alt: d.alt, title: d.title }))}
+        categoryLabel="ESKİZ"
+        href="/eskiz"
+      />
+    )}
   </section>
 </Layout>

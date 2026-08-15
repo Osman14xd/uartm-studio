@@ -16,6 +16,7 @@ export default defineType({
           {title: 'Kara Kalem', value: 'kara-kalem'},
           {title: 'Günlükler', value: 'gunlukler'},
           {title: 'Videolar', value: 'videolar'},
+          {title: 'Eskiz', value: 'eskiz'},
         ],
         layout: 'radio',
       },
