@@ -36,9 +36,15 @@ const currentPath = Astro.url.pathname;
       Koyu tema, sayfa çizilmeden ÖNCE (head içinde, senkron) uygulanıyor ki
       "önce beyaz açılıp sonra koyuya dönme" (flash) yaşanmasın.
       Saat aralığı: 20:00 - 07:00 arası koyu tema.
+
+      NOT: Şu an DARK_MODE_ENABLED = false yapılarak devre dışı bırakıldı,
+      site her zaman beyaz tema kalıyor. Tekrar aktif etmek için bu satırı
+      true yapmak yeterli, başka hiçbir kod değişikliği gerekmiyor.
     -->
     <script is:inline>
       (function () {
+        var DARK_MODE_ENABLED = false;
+        if (!DARK_MODE_ENABLED) return;
         var hour = new Date().getHours();
         var isNight = hour >= 20 || hour < 7;
         if (isNight) document.documentElement.classList.add('dark');
