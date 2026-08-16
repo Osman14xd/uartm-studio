@@ -28,6 +28,28 @@ const currentPath = Astro.url.pathname;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="description" content="Uartm Studio — Murat Apaydın. Duvar resimleri, tablolar ve kara kalem çalışmaları." />
     <title>{title} | Uartm Studio</title>
+    <link rel="canonical" href={new URL(Astro.url.pathname, 'https://uartmstudio.com')} />
+
+    <!-- Sosyal medyada paylaşıldığında (WhatsApp, Instagram vs.) düzgün önizleme çıksın diye -->
+    <meta property="og:title" content={`${title} | Uartm Studio`} />
+    <meta property="og:description" content="Murat Apaydın — Duvar resimleri, tablolar ve kara kalem çalışmaları." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={new URL(Astro.url.pathname, 'https://uartmstudio.com')} />
+
+    <!--
+      Google'a "bu site bir kişiye/sanatçıya ait" bilgisini net şekilde
+      veren yapılandırılmış veri. "Murat Apaydın" aramalarında Google'ın
+      siteyi doğru şekilde eşleştirmesine yardımcı olur.
+    -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Murat Apaydın',
+      alternateName: 'Uartm Studio',
+      jobTitle: 'Sanatçı',
+      url: 'https://uartmstudio.com',
+      sameAs: [],
+    })} />
     <!--
       Koyu tema, sayfa çizilmeden ÖNCE (head içinde, senkron) uygulanıyor ki
       "önce beyaz açılıp sonra koyuya dönme" (flash) yaşanmasın.
